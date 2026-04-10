@@ -50,11 +50,36 @@ public class UserController {
         return new ArrayList<>(userDb.values());
     }
 
-
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getOrders(@PathVariable
-                                              int id){
+    @GetMapping("/{userid}")
+    public ResponseEntity<User> getUsers(@PathVariable(value = "userid", required = false) int id){
+        if(!userDb.containsKey(id)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         return ResponseEntity.ok(userDb.get(id));
+    }
+
+    @GetMapping("/{userid}/orders/{orderId}")
+    public ResponseEntity<User> getUserOrder(@PathVariable("userid") int id,
+                                             @PathVariable int orderId){
+        if(!userDb.containsKey(id)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(userDb.get(id));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<User>> searchUsers(
+            @RequestParam(required = false, defaultValue = "alice") String name,
+            @RequestParam(required = false, defaultValue = "email") String email){
+        System.out.println(name +" "+email);
+        List<User> users = userDb.values().stream()
+                .filter(n -> n.getName().equalsIgnoreCase(name))
+                .filter(n -> n.getEmail().equalsIgnoreCase(email))
+                .toList();
+        return ResponseEntity.ok(new ArrayList<>(users));
+
+
+
     }
 
 }
