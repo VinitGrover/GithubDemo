@@ -77,9 +77,14 @@ public class UserController {
                 .filter(n -> n.getEmail().equalsIgnoreCase(email))
                 .toList();
         return ResponseEntity.ok(new ArrayList<>(users));
+    }
 
-
-
+    @GetMapping("/info/{id}")
+    public String getInfo(
+            @PathVariable int id,
+            @RequestParam String name,
+            @RequestHeader("User-Agent") String userAgent) {
+        return "User agent: " + userAgent +" "+id+" "+ name;
     }
 
 }
