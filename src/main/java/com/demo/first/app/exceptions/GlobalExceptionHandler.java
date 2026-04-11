@@ -1,5 +1,7 @@
 package com.demo.first.app.exceptions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -13,9 +15,12 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     // Exception Handling method
     @ExceptionHandler({IllegalArgumentException.class, NullPointerException.class, UserNotFoundException.class})
     public ResponseEntity<Map<String, Object>> handleIllegalArgumentException(Exception exception){
+        logger.error("Error when finding user ", exception);
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("timeStamp", LocalDateTime.now());
         errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
