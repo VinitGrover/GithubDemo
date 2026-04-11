@@ -1,10 +1,11 @@
-package com.demo.first.app;
+package com.demo.first.app.controller;
 
+import com.demo.first.app.model.User;
+import com.demo.first.app.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,17 +84,6 @@ public class UserController {
             @RequestParam String name,
             @RequestHeader("User-Agent") String userAgent) {
         return "User agent: " + userAgent +" "+id+" "+ name;
-    }
-
-    // Exception Handling method
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, Object>> handleIllegalArgumentException(IllegalArgumentException exception){
-        Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("timeStamp", LocalDateTime.now());
-        errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
-        errorResponse.put("error", "Bad request");
-        errorResponse.put("message", exception.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
 }

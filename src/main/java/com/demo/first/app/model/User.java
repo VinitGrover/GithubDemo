@@ -1,4 +1,4 @@
-package com.demo.first.app;
+package com.demo.first.app.model;
 
 public class User {
     private int id;
